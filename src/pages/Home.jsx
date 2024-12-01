@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchProperties } from '../services/services';
+import { fetchProperties, deleteProperty } from '../services/services';
 
 function Home() {
     const [properties, setProperties] = useState([]); // State to store properties
@@ -19,6 +19,18 @@ function Home() {
         getProperties(); // Call the function to fetch properties
     }, []); // Empty dependency array to run the effect only once on component mount
 
+    // Handle delete action
+    const handleDelete = (id) => {
+        deleteProperty(id)
+            .then(() => {
+                // Remove the deleted property from the state to update the UI
+                setProperties(properties.filter((property) => property.id !== id));
+            })
+            .catch((error) => {
+                console.error("Failed to delete the property", error);
+            });
+    };
+
     return (
         <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border border-gray-300">
@@ -29,6 +41,7 @@ function Home() {
                         <th className="border border-gray-300 px-4 py-2">Purpose</th>
                         <th className="border border-gray-300 px-4 py-2">Price</th>
                         <th className="border border-gray-300 px-4 py-2">Status</th>
+                        <th className="border border-gray-300 px-4 py-2">Description</th>
                         <th className="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
                 </thead>
@@ -43,6 +56,7 @@ function Home() {
                                 <td className="border border-gray-300 px-4 py-2">
                                     {property.status ? "Available" : "Not-Available"}
                                 </td>
+                                <td className="border border-gray-300 px-4 py-2">{property.description}</td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <div className="flex justify-center gap-2">
                                         <Link to={`/edit/${property.id}`}>
@@ -50,7 +64,10 @@ function Home() {
                                                 Edit
                                             </button>
                                         </Link>
-                                        <button className="bg-red-600 font-bold text-white px-2 py-1 rounded hover:bg-red-700">
+                                        <button
+                                            onClick={() => handleDelete(property.id)} // Trigger delete function
+                                            className="bg-red-600 font-bold text-white px-2 py-1 rounded hover:bg-red-700"
+                                        >
                                             Delete
                                         </button>
                                     </div>
@@ -59,13 +76,12 @@ function Home() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="6" className="text-center border border-gray-300 px-4 py-2">
+                            <td colSpan="7" className="text-center border border-gray-300 px-4 py-2">
                                 No properties found.
                             </td>
                         </tr>
                     )}
                 </tbody>
-
             </table>
             <div className='flex my-5 justify-center'>
                 <Link to="/add">

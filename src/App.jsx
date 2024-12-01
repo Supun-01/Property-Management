@@ -8,7 +8,7 @@ import EditProperty from './pages/EditProperty.jsx'
 function App() {
 
   return (
-    <div className='window-item-center'>
+    <div className='flex justify-center my-2'>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
