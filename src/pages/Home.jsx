@@ -1,8 +1,24 @@
-import React from 'react'
-import { properties } from '../assets/TestAPI'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchProperties } from '../services/services';
 
 function Home() {
+    const [properties, setProperties] = useState([]); // State to store properties
+
+    // Fetch properties on component mount
+    useEffect(() => {
+        const getProperties = async () => {
+            try {
+                const response = await fetchProperties();
+                setProperties(response.data); // Set the fetched data into the state
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+            }
+        };
+
+        getProperties(); // Call the function to fetch properties
+    }, []); // Empty dependency array to run the effect only once on component mount
+
     return (
         <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border border-gray-300">
@@ -24,12 +40,16 @@ function Home() {
                                 <td className="border border-gray-300 px-4 py-2">{property.type}</td>
                                 <td className="border border-gray-300 px-4 py-2">{property.purpose}</td>
                                 <td className="border border-gray-300 px-4 py-2">${property.price.toLocaleString()}</td>
-                                <td className="border border-gray-300 px-4 py-2">{property.status}</td>
+                                <td className="border border-gray-300 px-4 py-2">
+                                    {property.status ? "Available" : "Not-Available"}
+                                </td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <div className="flex justify-center gap-2">
-                                        <Link to="/edit"> <button className="bg-blue-500 font-bold text-white px-4 py-1 rounded hover:bg-blue-600">
-                                            Edit
-                                        </button></Link>
+                                        <Link to={`/edit/${property.id}`}>
+                                            <button className="bg-blue-500 font-bold text-white px-4 py-1 rounded hover:bg-blue-600">
+                                                Edit
+                                            </button>
+                                        </Link>
                                         <button className="bg-red-600 font-bold text-white px-2 py-1 rounded hover:bg-red-700">
                                             Delete
                                         </button>
@@ -45,12 +65,17 @@ function Home() {
                         </tr>
                     )}
                 </tbody>
+
             </table>
             <div className='flex my-5 justify-center'>
-                <Link to="/add"><button className='bg-green-500 font-bold hover:bg-green-600 text-white px-2 py-1 rounded'>Add New Property</button></Link>
+                <Link to="/add">
+                    <button className='bg-green-500 font-bold hover:bg-green-600 text-white px-2 py-1 rounded'>
+                        Add New Property
+                    </button>
+                </Link>
             </div>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;
