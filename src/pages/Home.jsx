@@ -34,6 +34,9 @@ function Home() {
     return (
         <div className="overflow-x-auto">
             <table className="table-auto w-full border-collapse border border-gray-300">
+                <caption className='text-2xl  mb-5'>
+                    Property Management CRUD App
+                </caption>
                 <thead>
                     <tr className="bg-gray-100">
                         <th className="border border-gray-300 px-4 py-2">Title</th>
@@ -49,16 +52,16 @@ function Home() {
                     {properties.length > 0 ? (
                         properties.map((property) => (
                             <tr key={property.id} className="hover:bg-gray-50">
-                                <td className="border border-gray-300 px-4 py-2">{property.title}</td>
-                                <td className="border border-gray-300 px-4 py-2">{property.type}</td>
-                                <td className="border border-gray-300 px-4 py-2">{property.purpose}</td>
-                                <td className="border border-gray-300 px-4 py-2">${property.price.toLocaleString()}</td>
-                                <td className="border border-gray-300 px-4 py-2">
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{property.title}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{property.type}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{property.purpose}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">${property.price.toLocaleString()}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">
                                     <span className={property.status ? "text-green-600" : "text-red-600"}>
                                         {property.status ? "Available" : "Not-Available"}
                                     </span>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2">{property.description}</td>
+                                <td className="border border-gray-300 px-4 py-2 text-gray-700">{property.description}</td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <div className="flex justify-center gap-2">
                                         <Link to={`/edit/${property.id}`}>
