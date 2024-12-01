@@ -54,7 +54,9 @@ function Home() {
                                 <td className="border border-gray-300 px-4 py-2">{property.purpose}</td>
                                 <td className="border border-gray-300 px-4 py-2">${property.price.toLocaleString()}</td>
                                 <td className="border border-gray-300 px-4 py-2">
-                                    {property.status ? "Available" : "Not-Available"}
+                                    <span className={property.status ? "text-green-600" : "text-red-600"}>
+                                        {property.status ? "Available" : "Not-Available"}
+                                    </span>
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2">{property.description}</td>
                                 <td className="border border-gray-300 px-4 py-2">

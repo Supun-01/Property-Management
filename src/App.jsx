@@ -8,7 +8,7 @@ import EditProperty from './pages/EditProperty.jsx'
 function App() {
 
   return (
-    <div className='flex justify-center my-2'>
+    <div className='flex justify-center items-center min-h-screen'>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
